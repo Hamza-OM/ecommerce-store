@@ -87,13 +87,13 @@ const Navbar = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <Link to="/wishlist" className="relative p-2">
+              <Link to="/wishlist" className="relative inline-block p-2">
                 <Heart className="h-6 w-6 text-gray-700" />
                 {getWishlistCount() > 0 && (
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                    className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform translate-x-1/2 -translate-y-1/2"
                   >
                     {getWishlistCount()}
                   </motion.div>
@@ -106,13 +106,13 @@ const Navbar = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <Link to="/cart" className="relative p-2">
+              <Link to="/cart" className="relative inline-block p-2">
                 <ShoppingCart className="h-6 w-6 text-gray-700" />
                 {getTotalItems() > 0 && (
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                    className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform translate-x-1/2 -translate-y-1/2"
                   >
                     {getTotalItems()}
                   </motion.div>
