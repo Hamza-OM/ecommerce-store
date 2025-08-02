@@ -22,6 +22,11 @@ const wishlistReducer = (state, action) => {
         ...state,
         items: [],
       };
+    case 'LOAD_WISHLIST':
+      return {
+        ...state,
+        items: action.payload,
+      };
     default:
       return state;
   }
@@ -36,10 +41,13 @@ export const WishlistProvider = ({ children }) => {
   useEffect(() => {
     const savedWishlist = localStorage.getItem('wishlist');
     if (savedWishlist) {
-      const parsedWishlist = JSON.parse(savedWishlist);
-      parsedWishlist.items.forEach(item => {
-        dispatch({ type: 'ADD_TO_WISHLIST', payload: item });
-      });
+      try {
+        const parsedWishlist = JSON.parse(savedWishlist);
+        dispatch({ type: 'LOAD_WISHLIST', payload: parsedWishlist.items });
+      } catch (error) {
+        console.error('Error loading wishlist from localStorage:', error);
+        localStorage.removeItem('wishlist');
+      }
     }
   }, []);
 

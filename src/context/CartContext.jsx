@@ -43,6 +43,12 @@ const cartReducer = (state, action) => {
         items: [],
       };
 
+    case 'LOAD_CART':
+      return {
+        ...state,
+        items: action.payload,
+      };
+
     default:
       return state;
   }
@@ -90,10 +96,14 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
-      const items = JSON.parse(savedCart);
-      items.forEach(item => {
-        dispatch({ type: 'ADD_ITEM', payload: { ...item, quantity: item.quantity } });
-      });
+      try {
+        const items = JSON.parse(savedCart);
+        // Set the entire cart state at once instead of dispatching multiple times
+        dispatch({ type: 'LOAD_CART', payload: items });
+      } catch (error) {
+        console.error('Error loading cart from localStorage:', error);
+        localStorage.removeItem('cart');
+      }
     }
   }, []);
 
