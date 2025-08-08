@@ -5,6 +5,8 @@ import { Star, ShoppingCart, Filter, Search, Grid, List, Heart } from 'lucide-re
 import { products, categories } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useToast } from '../context/ToastContext';
+import { formatCurrency } from '../utils/format';
 
 const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -13,16 +15,15 @@ const Products = () => {
   const [viewMode, setViewMode] = useState('grid');
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { showToast } = useToast();
 
   const filteredProducts = useMemo(() => {
     let filtered = products;
 
-    // Filter by category
     if (selectedCategory !== 'All') {
       filtered = filtered.filter(product => product.category === selectedCategory);
     }
 
-    // Filter by search query
     if (searchQuery) {
       filtered = filtered.filter(product =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -30,7 +31,6 @@ const Products = () => {
       );
     }
 
-    // Sort products
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'price-low':
@@ -66,6 +66,21 @@ const Products = () => {
       transition: {
         duration: 0.5
       }
+    }
+  };
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    showToast('Added to cart');
+  };
+
+  const handleToggleWishlist = (product) => {
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+      showToast('Removed from wishlist', 'warning');
+    } else {
+      addToWishlist(product);
+      showToast('Added to wishlist');
     }
   };
 
@@ -187,6 +202,7 @@ const Products = () => {
                     <img
                       src={product.images[0]}
                       alt={product.name}
+                      loading="lazy"
                       className={`object-cover group-hover:scale-110 transition-transform duration-300 ${
                         viewMode === 'list' ? 'w-full h-full' : 'w-full h-48'
                       }`}
@@ -230,11 +246,11 @@ const Products = () => {
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
                         <span className="text-xl font-bold text-gray-900">
-                          ${product.price}
+                          {formatCurrency(product.price)}
                         </span>
                         {product.originalPrice > product.price && (
                           <span className="text-sm text-gray-500 line-through">
-                            ${product.originalPrice}
+                            {formatCurrency(product.originalPrice)}
                           </span>
                         )}
                       </div>
@@ -253,7 +269,7 @@ const Products = () => {
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => addToCart(product)}
+                        onClick={() => handleAddToCart(product)}
                         className="btn-primary flex items-center justify-center gap-2"
                       >
                         <ShoppingCart className="h-4 w-4" />
@@ -261,7 +277,7 @@ const Products = () => {
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => isInWishlist(product.id) ? removeFromWishlist(product.id) : addToWishlist(product)}
+                        onClick={() => handleToggleWishlist(product)}
                         className={`p-2 rounded-lg border-2 transition-colors ${
                           isInWishlist(product.id)
                             ? 'border-red-500 text-red-500 bg-red-50'

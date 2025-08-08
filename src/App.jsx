@@ -13,7 +13,9 @@ import Register from './pages/Register';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { WishlistProvider } from './context/WishlistContext';
+import { ToastProvider } from './context/ToastContext';
 import ErrorBoundary from './components/ErrorBoundary';
+import Footer from './components/Footer';
 import './index.css';
 
 function App() {
@@ -22,23 +24,28 @@ function App() {
       <AuthProvider>
         <CartProvider>
           <WishlistProvider>
-            <Router>
-              <div className="min-h-screen bg-gray-50">
-                <Navbar />
-                <AnimatePresence mode="wait">
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/products" element={<Products />} />
-                    <Route path="/product/:id" element={<ProductDetail />} />
-                    <Route path="/cart" element={<Cart />} />
-                    <Route path="/wishlist" element={<Wishlist />} />
-                    <Route path="/checkout" element={<Checkout />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                  </Routes>
-                </AnimatePresence>
-              </div>
-            </Router>
+            <ToastProvider>
+              <Router>
+                <div className="min-h-screen bg-gray-50 flex flex-col">
+                  <Navbar />
+                  <div className="flex-1">
+                    <AnimatePresence mode="wait">
+                      <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/products" element={<Products />} />
+                        <Route path="/product/:id" element={<ProductDetail />} />
+                        <Route path="/cart" element={<Cart />} />
+                        <Route path="/wishlist" element={<Wishlist />} />
+                        <Route path="/checkout" element={<Checkout />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                      </Routes>
+                    </AnimatePresence>
+                  </div>
+                  <Footer />
+                </div>
+              </Router>
+            </ToastProvider>
           </WishlistProvider>
         </CartProvider>
       </AuthProvider>

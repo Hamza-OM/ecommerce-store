@@ -5,6 +5,8 @@ import { Star, ShoppingCart, Heart, Share2, ArrowLeft, Check } from 'lucide-reac
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useToast } from '../context/ToastContext';
+import { formatCurrency } from '../utils/format';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -12,6 +14,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { showToast } = useToast();
 
   const product = products.find(p => p.id === parseInt(id));
 
@@ -30,13 +33,16 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     addToCart({ ...product, quantity });
+    showToast('Added to cart');
   };
 
   const handleWishlistToggle = () => {
     if (isInWishlist(product.id)) {
       removeFromWishlist(product.id);
+      showToast('Removed from wishlist', 'warning');
     } else {
       addToWishlist(product);
+      showToast('Added to wishlist');
     }
   };
 
@@ -72,6 +78,7 @@ const ProductDetail = () => {
               <img
                 src={product.images[selectedImage]}
                 alt={product.name}
+                loading="lazy"
                 className="w-full h-96 object-cover"
               />
               {discountPercentage > 0 && (
@@ -98,6 +105,7 @@ const ProductDetail = () => {
                   <img
                     src={image}
                     alt={`${product.name} ${index + 1}`}
+                    loading="lazy"
                     className="w-20 h-20 object-cover"
                   />
                 </motion.button>
@@ -135,12 +143,12 @@ const ProductDetail = () => {
 
             {/* Price */}
             <div className="flex items-center gap-4">
-              <span className="text-3xl font-bold text-gray-900">${product.price}</span>
+              <span className="text-3xl font-bold text-gray-900">{formatCurrency(product.price)}</span>
               {product.originalPrice > product.price && (
-                <span className="text-xl text-gray-500 line-through">${product.originalPrice}</span>
+                <span className="text-xl text-gray-500 line-through">{formatCurrency(product.originalPrice)}</span>
               )}
               {discountPercentage > 0 && (
-                <span className="text-green-600 font-semibold">Save ${(product.originalPrice - product.price).toFixed(2)}</span>
+                <span className="text-green-600 font-semibold">Save {formatCurrency(product.originalPrice - product.price)}</span>
               )}
             </div>
 
@@ -205,18 +213,18 @@ const ProductDetail = () => {
                   Add to Cart
                 </motion.button>
                 
-                                 <motion.button
-                   whileHover={{ scale: 1.05 }}
-                   whileTap={{ scale: 0.95 }}
-                   onClick={handleWishlistToggle}
-                   className={`p-4 rounded-lg border-2 transition-colors ${
-                     isInWishlist(product.id)
-                       ? 'border-red-500 text-red-500 bg-red-50'
-                       : 'border-gray-300 text-gray-600 hover:border-red-500 hover:text-red-500'
-                   }`}
-                 >
-                   <Heart className={`h-5 w-5 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
-                 </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleWishlistToggle}
+                  className={`p-4 rounded-lg border-2 transition-colors ${
+                    isInWishlist(product.id)
+                      ? 'border-red-500 text-red-500 bg-red-50'
+                      : 'border-gray-300 text-gray-600 hover:border-red-500 hover:text-red-500'
+                  }`}
+                >
+                  <Heart className={`h-5 w-5 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
+                </motion.button>
                 
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -272,6 +280,7 @@ const ProductDetail = () => {
                     <img
                       src={relatedProduct.images[0]}
                       alt={relatedProduct.name}
+                      loading="lazy"
                       className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                     {relatedProduct.originalPrice > relatedProduct.price && (
@@ -307,11 +316,11 @@ const ProductDetail = () => {
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
                         <span className="text-lg font-bold text-gray-900">
-                          ${relatedProduct.price}
+                          {formatCurrency(relatedProduct.price)}
                         </span>
                         {relatedProduct.originalPrice > relatedProduct.price && (
                           <span className="text-sm text-gray-500 line-through">
-                            ${relatedProduct.originalPrice}
+                            {formatCurrency(relatedProduct.originalPrice)}
                           </span>
                         )}
                       </div>
