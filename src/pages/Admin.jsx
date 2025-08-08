@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Package, ShoppingBag, Users, Plus, Edit2, Trash2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -23,10 +23,11 @@ const Admin = () => {
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
   const [form, setForm] = useState({ id: null, name: '', price: '', description: '' });
-  const [loading, setLoading] = useState(false);
+  // Removed unused loading variable:
+  // const [loading, setLoading] = useState(false);
 
-  const loadAll = async () => {
-    setLoading(true);
+  const loadAll = useCallback(async () => {
+    // setLoading(true); // removed since loading state removed
     try {
       const [p, o, u] = await Promise.all([
         fetchJson('/.netlify/functions/admin-products'),
@@ -39,13 +40,13 @@ const Admin = () => {
     } catch (e) {
       console.error(e);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
-  };
+  }, [fetchJson]);
 
   useEffect(() => {
     loadAll();
-  }, []);
+  }, [loadAll]);
 
   const submitProduct = async (e) => {
     e.preventDefault();
@@ -158,5 +159,3 @@ const Admin = () => {
 };
 
 export default Admin;
-
-

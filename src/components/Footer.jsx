@@ -12,24 +12,24 @@ const Footer = () => {
           <div>
             <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Company</h4>
             <ul className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-400">
-              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="#">About</a></li>
-              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="#">Careers</a></li>
-              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="#">Contact</a></li>
+              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="/about">About</a></li>
+              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="/careers">Careers</a></li>
+              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="/contact">Contact</a></li>
             </ul>
           </div>
           <div>
             <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Support</h4>
             <ul className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-400">
-              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="#">Help Center</a></li>
-              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="#">Shipping</a></li>
-              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="#">Returns</a></li>
+              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="/help-center">Help Center</a></li>
+              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="/shipping">Shipping</a></li>
+              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="/returns">Returns</a></li>
             </ul>
           </div>
           <div>
             <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Legal</h4>
             <ul className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-400">
-              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="#">Privacy Policy</a></li>
-              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="#">Terms of Service</a></li>
+              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="/privacy-policy">Privacy Policy</a></li>
+              <li><a className="hover:text-gray-900 dark:hover:text-gray-200" href="/terms-of-service">Terms of Service</a></li>
             </ul>
           </div>
         </div>
