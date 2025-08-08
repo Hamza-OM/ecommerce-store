@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
     "./public/index.html"
@@ -9,10 +10,29 @@ module.exports = {
       fontFamily: {
         'sans': ['Inter', 'sans-serif'],
       },
+      colors: {
+        brand: {
+          50: '#eef2ff',
+          100: '#e0e7ff',
+          200: '#c7d2fe',
+          300: '#a5b4fc',
+          400: '#818cf8',
+          500: '#6366f1',
+          600: '#4f46e5',
+          700: '#4338ca',
+          800: '#3730a3',
+          900: '#312e81',
+        }
+      },
+      boxShadow: {
+        'soft': '0 10px 30px rgba(2, 6, 23, 0.08)',
+        'elevated': '0 12px 40px rgba(2, 6, 23, 0.12)'
+      },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.5s ease-out',
         'bounce-in': 'bounceIn 0.6s ease-out',
+        'pulse-slow': 'pulse 3s ease-in-out infinite'
       },
       keyframes: {
         fadeIn: {

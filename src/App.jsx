@@ -10,6 +10,8 @@ import Wishlist from './pages/Wishlist';
 import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Admin from './pages/Admin';
+import ProtectedRoute from './components/ProtectedRoute';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { WishlistProvider } from './context/WishlistContext';
@@ -26,7 +28,7 @@ function App() {
           <WishlistProvider>
             <ToastProvider>
               <Router>
-                <div className="min-h-screen bg-gray-50 flex flex-col">
+                <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col dark:bg-gray-950 dark:text-gray-100">
                   <Navbar />
                   <div className="flex-1">
                     <AnimatePresence mode="wait">
@@ -39,6 +41,7 @@ function App() {
                         <Route path="/checkout" element={<Checkout />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
+                        <Route path="/admin" element={<ProtectedRoute requireAdmin><Admin /></ProtectedRoute>} />
                       </Routes>
                     </AnimatePresence>
                   </div>

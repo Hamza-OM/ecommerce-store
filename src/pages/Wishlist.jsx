@@ -16,7 +16,7 @@ const Wishlist = () => {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -24,8 +24,8 @@ const Wishlist = () => {
             className="text-center py-16"
           >
             <Heart className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Your Wishlist is Empty</h2>
-            <p className="text-gray-600 mb-8">Start adding products you love to your wishlist!</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Your Wishlist is Empty</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-8">Start adding products you love to your wishlist!</p>
             <Link to="/products" className="btn-primary">
               Browse Products
             </Link>
@@ -36,7 +36,7 @@ const Wishlist = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -53,8 +53,8 @@ const Wishlist = () => {
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Products
               </Link>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">My Wishlist</h1>
-              <p className="text-gray-600">{items.length} items in your wishlist</p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">My Wishlist</h1>
+              <p className="text-gray-600 dark:text-gray-400">{items.length} items in your wishlist</p>
             </div>
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -117,18 +117,18 @@ const Wishlist = () => {
                       />
                     ))}
                   </div>
-                  <span className="text-sm text-gray-600 ml-2">
+                  <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
                     ({item.reviews})
                   </span>
                 </div>
                 
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-gray-900">
+                    <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
                       ${item.price}
                     </span>
                     {item.originalPrice > item.price && (
-                      <span className="text-sm text-gray-500 line-through">
+                      <span className="text-sm text-gray-500 dark:text-gray-400 line-through">
                         ${item.originalPrice}
                       </span>
                     )}

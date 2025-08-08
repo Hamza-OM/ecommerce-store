@@ -5,6 +5,7 @@ import { ShoppingCart, User, Menu, X, Search, Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,10 +15,11 @@ const Navbar = () => {
   const { getWishlistCount } = useWishlist();
   const location = useLocation();
 
-  const navItems = [
+  const baseItems = [
     { name: 'Home', path: '/' },
     { name: 'Products', path: '/products' },
   ];
+  const navItems = user?.role === 'admin' ? [...baseItems, { name: 'Admin', path: '/admin' }] : baseItems;
 
   const handleLogout = () => {
     logout();
@@ -28,16 +30,13 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="bg-white shadow-lg sticky top-0 z-50"
+      className="bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-lg sticky top-0 z-50 dark:bg-gray-900/70 dark:supports-[backdrop-filter]:bg-gray-900/50"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="flex-shrink-0"
-          >
-            <Link to="/" className="text-2xl font-bold text-blue-600">
+          <motion.div whileHover={{ scale: 1.05 }} className="flex-shrink-0">
+            <Link to="/" className="text-2xl font-bold text-brand-600 dark:text-brand-400">
               ShopHub
             </Link>
           </motion.div>
@@ -46,17 +45,13 @@ const Navbar = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               {navItems.map((item) => (
-                <motion.div
-                  key={item.name}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                <motion.div key={item.name} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Link
                     to={item.path}
                     className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
                       location.pathname === item.path
-                        ? 'text-blue-600 bg-blue-50'
-                        : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                        ? 'text-brand-600 bg-brand-50 dark:text-brand-400 dark:bg-gray-800'
+                        : 'text-gray-700 hover:text-brand-600 hover:bg-brand-50 dark:text-gray-200 dark:hover:text-brand-400 dark:hover:bg-gray-800'
                     }`}
                   >
                     {item.name}
@@ -75,20 +70,18 @@ const Navbar = () => {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
               />
             </div>
           </div>
 
           {/* Right side icons */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
+            <ThemeToggle />
             {/* Wishlist */}
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
               <Link to="/wishlist" className="relative inline-block p-2">
-                <Heart className="h-6 w-6 text-gray-700" />
+                <Heart className="h-6 w-6 text-gray-700 dark:text-gray-200" />
                 {getWishlistCount() > 0 && (
                   <motion.div
                     initial={{ scale: 0 }}
@@ -102,12 +95,9 @@ const Navbar = () => {
             </motion.div>
 
             {/* Cart */}
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
               <Link to="/cart" className="relative inline-block p-2">
-                <ShoppingCart className="h-6 w-6 text-gray-700" />
+                <ShoppingCart className="h-6 w-6 text-gray-700 dark:text-gray-200" />
                 {getTotalItems() > 0 && (
                   <motion.div
                     initial={{ scale: 0 }}
@@ -128,20 +118,14 @@ const Navbar = () => {
                   className="flex items-center space-x-2 cursor-pointer"
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >
-                  <User className="h-6 w-6 text-gray-700" />
-                  <span className="text-sm font-medium text-gray-700">
+                  <User className="h-6 w-6 text-gray-700 dark:text-gray-200" />
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                     {user.name}
                   </span>
                 </motion.div>
               ) : (
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Link
-                    to="/login"
-                    className="text-sm font-medium text-gray-700 hover:text-blue-600"
-                  >
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link to="/login" className="text-sm font-medium text-gray-700 hover:text-brand-600 dark:text-gray-200 dark:hover:text-brand-400">
                     Login
                   </Link>
                 </motion.div>
@@ -154,11 +138,11 @@ const Navbar = () => {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
+                    className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg py-1 z-50 border border-gray-100 dark:border-gray-800"
                   >
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800"
                     >
                       Logout
                     </button>
@@ -169,15 +153,11 @@ const Navbar = () => {
 
             {/* Mobile menu button */}
             <div className="md:hidden">
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2"
-              >
+              <motion.button whileTap={{ scale: 0.95 }} onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2">
                 {isMenuOpen ? (
-                  <X className="h-6 w-6 text-gray-700" />
+                  <X className="h-6 w-6 text-gray-700 dark:text-gray-200" />
                 ) : (
-                  <Menu className="h-6 w-6 text-gray-700" />
+                  <Menu className="h-6 w-6 text-gray-700 dark:text-gray-200" />
                 )}
               </motion.button>
             </div>
@@ -193,15 +173,15 @@ const Navbar = () => {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden"
             >
-              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
                 {navItems.map((item) => (
                   <Link
                     key={item.name}
                     to={item.path}
                     className={`block px-3 py-2 rounded-md text-base font-medium ${
                       location.pathname === item.path
-                        ? 'text-blue-600 bg-blue-50'
-                        : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                        ? 'text-brand-600 bg-brand-50 dark:text-brand-400 dark:bg-gray-800'
+                        : 'text-gray-700 hover:text-brand-600 hover:bg-brand-50 dark:text-gray-200 dark:hover:text-brand-400 dark:hover:bg-gray-800'
                     }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -211,7 +191,7 @@ const Navbar = () => {
                 {!user && (
                   <Link
                     to="/login"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-brand-50 dark:text-gray-200 dark:hover:text-brand-400 dark:hover:bg-gray-800"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Login

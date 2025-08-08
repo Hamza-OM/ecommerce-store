@@ -86,16 +86,12 @@ const Home = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="py-16 bg-gray-50"
+        className="py-16 bg-gray-50 dark:bg-gray-900"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Why Choose ShopHub?
-            </h2>
-            <p className="text-lg text-gray-600">
-              We provide the best shopping experience with quality products and excellent service
-            </p>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Why Choose ShopHub?</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400">We provide the best shopping experience with quality products and excellent service</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -121,11 +117,11 @@ const Home = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="text-center p-6 bg-white rounded-xl shadow-lg"
+                className="card text-center p-6"
               >
                 <div className="text-4xl mb-4">{feature.icon}</div>
                 <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -141,12 +137,8 @@ const Home = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Featured Products
-            </h2>
-            <p className="text-lg text-gray-600">
-              Check out our most popular products
-            </p>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Featured Products</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400">Check out our most popular products</p>
           </div>
 
           <motion.div

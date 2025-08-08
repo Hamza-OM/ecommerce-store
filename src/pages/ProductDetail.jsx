@@ -20,9 +20,9 @@ const ProductDetail = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Product not found</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Product not found</h2>
           <Link to="/products" className="btn-primary">
             Back to Products
           </Link>
@@ -49,7 +49,7 @@ const ProductDetail = () => {
   const discountPercentage = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <motion.div
@@ -74,7 +74,7 @@ const ProductDetail = () => {
             className="space-y-4"
           >
             {/* Main Image */}
-            <div className="relative overflow-hidden rounded-xl bg-white shadow-lg">
+            <div className="relative overflow-hidden rounded-xl bg-white dark:bg-gray-900 shadow-lg">
               <img
                 src={product.images[selectedImage]}
                 alt={product.name}
@@ -99,7 +99,7 @@ const ProductDetail = () => {
                   className={`relative overflow-hidden rounded-lg border-2 transition-all ${
                     selectedImage === index
                       ? 'border-blue-500 scale-105'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:dark:border-gray-600'
                   }`}
                 >
                   <img
@@ -121,7 +121,7 @@ const ProductDetail = () => {
           >
             {/* Product Header */}
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">{product.name}</h1>
               <div className="flex items-center gap-4 mb-4">
                 <div className="flex items-center">
                   {[...Array(5)].map((_, i) => (
@@ -135,17 +135,17 @@ const ProductDetail = () => {
                     />
                   ))}
                 </div>
-                <span className="text-gray-600">({product.reviews} reviews)</span>
+                <span className="text-gray-600 dark:text-gray-400">({product.reviews} reviews)</span>
                 <span className="text-gray-500">•</span>
-                <span className="text-gray-600">{product.stockCount} in stock</span>
+                <span className="text-gray-600 dark:text-gray-400">{product.stockCount} in stock</span>
               </div>
             </div>
 
             {/* Price */}
             <div className="flex items-center gap-4">
-              <span className="text-3xl font-bold text-gray-900">{formatCurrency(product.price)}</span>
+              <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">{formatCurrency(product.price)}</span>
               {product.originalPrice > product.price && (
-                <span className="text-xl text-gray-500 line-through">{formatCurrency(product.originalPrice)}</span>
+                <span className="text-xl text-gray-500 dark:text-gray-400 line-through">{formatCurrency(product.originalPrice)}</span>
               )}
               {discountPercentage > 0 && (
                 <span className="text-green-600 font-semibold">Save {formatCurrency(product.originalPrice - product.price)}</span>
@@ -155,7 +155,7 @@ const ProductDetail = () => {
             {/* Description */}
             <div>
               <h3 className="text-lg font-semibold mb-2">Description</h3>
-              <p className="text-gray-600 leading-relaxed">{product.description}</p>
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{product.description}</p>
             </div>
 
             {/* Features */}
@@ -171,7 +171,7 @@ const ProductDetail = () => {
                     className="flex items-center gap-2"
                   >
                     <Check className="h-4 w-4 text-green-500" />
-                    <span className="text-gray-600">{feature}</span>
+                    <span className="text-gray-600 dark:text-gray-400">{feature}</span>
                   </motion.li>
                 ))}
               </ul>
@@ -180,22 +180,22 @@ const ProductDetail = () => {
             {/* Quantity and Actions */}
             <div className="space-y-4">
               <div className="flex items-center gap-4">
-                <label className="text-sm font-medium text-gray-700">Quantity:</label>
-                <div className="flex items-center border border-gray-300 rounded-lg">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Quantity:</label>
+                <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded-lg">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-3 py-2 text-gray-600 hover:text-gray-900"
+                    className="px-3 py-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
                   >
                     -
                   </motion.button>
-                  <span className="px-4 py-2 border-x border-gray-300">{quantity}</span>
+                  <span className="px-4 py-2 border-x border-gray-300 dark:border-gray-700">{quantity}</span>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setQuantity(quantity + 1)}
-                    className="px-3 py-2 text-gray-600 hover:text-gray-900"
+                    className="px-3 py-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
                   >
                     +
                   </motion.button>
@@ -219,8 +219,8 @@ const ProductDetail = () => {
                   onClick={handleWishlistToggle}
                   className={`p-4 rounded-lg border-2 transition-colors ${
                     isInWishlist(product.id)
-                      ? 'border-red-500 text-red-500 bg-red-50'
-                      : 'border-gray-300 text-gray-600 hover:border-red-500 hover:text-red-500'
+                      ? 'border-red-500 text-red-500 bg-red-50 dark:bg-red-900/20'
+                      : 'border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-red-500 dark:hover:border-red-400 hover:text-red-500 dark:hover:text-red-400'
                   }`}
                 >
                   <Heart className={`h-5 w-5 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
@@ -229,7 +229,7 @@ const ProductDetail = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="p-4 rounded-lg border-2 border-gray-300 text-gray-600 hover:border-blue-500 hover:text-blue-500 transition-colors"
+                  className="p-4 rounded-lg border-2 border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                 >
                   <Share2 className="h-5 w-5" />
                 </motion.button>
@@ -237,9 +237,9 @@ const ProductDetail = () => {
             </div>
 
             {/* Stock Status */}
-            <div className="bg-gray-50 rounded-lg p-4">
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Availability:</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">Availability:</span>
                 <span className={`text-sm font-medium ${
                   product.inStock ? 'text-green-600' : 'text-red-600'
                 }`}>
@@ -249,7 +249,7 @@ const ProductDetail = () => {
               {product.inStock && (
                 <div className="mt-2">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Stock Level:</span>
+                    <span className="text-gray-600 dark:text-gray-400">Stock Level:</span>
                     <span className="font-medium">{product.stockCount} units</span>
                   </div>
                 </div>
@@ -265,7 +265,7 @@ const ProductDetail = () => {
           transition={{ delay: 0.3 }}
           className="mt-16"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-8">Related Products</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-8">Related Products</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {products
               .filter(p => p.category === product.category && p.id !== product.id)
@@ -291,9 +291,7 @@ const ProductDetail = () => {
                   </div>
                   
                   <div className="p-4">
-                    <h3 className="font-semibold mb-2 group-hover:text-blue-600 transition-colors">
-                      {relatedProduct.name}
-                    </h3>
+                    <h3 className="font-semibold mb-2 group-hover:text-blue-600 transition-colors">{relatedProduct.name}</h3>
                     
                     <div className="flex items-center mb-2">
                       <div className="flex items-center">
@@ -308,20 +306,14 @@ const ProductDetail = () => {
                           />
                         ))}
                       </div>
-                      <span className="text-sm text-gray-600 ml-2">
-                        ({relatedProduct.reviews})
-                      </span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">({relatedProduct.reviews})</span>
                     </div>
                     
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
-                        <span className="text-lg font-bold text-gray-900">
-                          {formatCurrency(relatedProduct.price)}
-                        </span>
+                        <span className="text-lg font-bold text-gray-900 dark:text-gray-100">{formatCurrency(relatedProduct.price)}</span>
                         {relatedProduct.originalPrice > relatedProduct.price && (
-                          <span className="text-sm text-gray-500 line-through">
-                            {formatCurrency(relatedProduct.originalPrice)}
-                          </span>
+                          <span className="text-sm text-gray-500 dark:text-gray-400 line-through">{formatCurrency(relatedProduct.originalPrice)}</span>
                         )}
                       </div>
                     </div>

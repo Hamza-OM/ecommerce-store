@@ -85,7 +85,7 @@ const Products = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -93,8 +93,8 @@ const Products = () => {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">All Products</h1>
-          <p className="text-gray-600">Discover our amazing collection of products</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">All Products</h1>
+          <p className="text-gray-600 dark:text-gray-400">Discover our amazing collection of products</p>
         </motion.div>
 
         {/* Filters and Search */}
@@ -102,7 +102,7 @@ const Products = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white rounded-xl shadow-lg p-6 mb-8"
+          className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl shadow-lg p-6 mb-8"
         >
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             {/* Search */}
@@ -113,7 +113,7 @@ const Products = () => {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="input-field pl-10"
               />
             </div>
 
@@ -123,7 +123,7 @@ const Products = () => {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="input-field"
               >
                 {categories.map(category => (
                   <option key={category} value={category}>
@@ -137,7 +137,7 @@ const Products = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="input-field"
             >
               <option value="name">Sort by Name</option>
               <option value="price-low">Price: Low to High</option>
@@ -151,7 +151,7 @@ const Products = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setViewMode('grid')}
-                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-blue-100 text-blue-600' : 'text-gray-500'}`}
+                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-blue-100 text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}
               >
                 <Grid className="h-5 w-5" />
               </motion.button>
@@ -159,7 +159,7 @@ const Products = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setViewMode('list')}
-                className={`p-2 rounded ${viewMode === 'list' ? 'bg-blue-100 text-blue-600' : 'text-gray-500'}`}
+                className={`p-2 rounded ${viewMode === 'list' ? 'bg-blue-100 text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}
               >
                 <List className="h-5 w-5" />
               </motion.button>
@@ -173,7 +173,7 @@ const Products = () => {
           animate={{ opacity: 1 }}
           className="mb-6"
         >
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-400">
             Showing {filteredProducts.length} of {products.length} products
           </p>
         </motion.div>
@@ -215,13 +215,13 @@ const Products = () => {
                   </div>
                   
                   <div className={`p-4 ${viewMode === 'list' ? 'flex-1' : ''}`}>
-                    <h3 className={`font-semibold mb-2 group-hover:text-blue-600 transition-colors ${
+                    <h3 className={`font-semibold mb-2 group-hover:text-blue-600 transition-colors dark:text-gray-100 ${
                       viewMode === 'list' ? 'text-lg' : 'text-lg'
                     }`}>
                       {product.name}
                     </h3>
                     
-                    <p className={`text-gray-600 mb-3 ${viewMode === 'list' ? 'text-sm' : ''}`}>
+                    <p className={`text-gray-600 dark:text-gray-400 mb-3 ${viewMode === 'list' ? 'text-sm' : ''}`}>
                       {product.description}
                     </p>
                     
@@ -238,23 +238,23 @@ const Products = () => {
                           />
                         ))}
                       </div>
-                      <span className="text-sm text-gray-600 ml-2">
+                      <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
                         ({product.reviews})
                       </span>
                     </div>
                     
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
-                        <span className="text-xl font-bold text-gray-900">
+                        <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
                           {formatCurrency(product.price)}
                         </span>
                         {product.originalPrice > product.price && (
-                          <span className="text-sm text-gray-500 line-through">
+                          <span className="text-sm text-gray-500 dark:text-gray-400 line-through">
                             {formatCurrency(product.originalPrice)}
                           </span>
                         )}
                       </div>
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-gray-500 dark:text-gray-400">
                         {product.stockCount} in stock
                       </span>
                     </div>
@@ -280,8 +280,8 @@ const Products = () => {
                         onClick={() => handleToggleWishlist(product)}
                         className={`p-2 rounded-lg border-2 transition-colors ${
                           isInWishlist(product.id)
-                            ? 'border-red-500 text-red-500 bg-red-50'
-                            : 'border-gray-300 text-gray-600 hover:border-red-500 hover:text-red-500'
+                            ? 'border-red-500 text-red-500 bg-red-50 dark:bg-red-900/20'
+                            : 'border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-red-500 dark:hover:border-red-400 hover:text-red-500 dark:hover:text-red-400'
                         }`}
                       >
                         <Heart className={`h-4 w-4 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
@@ -297,7 +297,7 @@ const Products = () => {
               animate={{ opacity: 1, y: 0 }}
               className="text-center py-12"
             >
-              <div className="text-gray-500 text-lg mb-4">
+              <div className="text-gray-500 dark:text-gray-400 text-lg mb-4">
                 No products found matching your criteria
               </div>
               <button

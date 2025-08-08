@@ -16,6 +16,7 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [info, setInfo] = useState('');
   const { register } = useAuth();
   const navigate = useNavigate();
 
@@ -46,19 +47,21 @@ const Register = () => {
     }
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For demo purposes, accept any valid form data
-      if (formData.firstName && formData.lastName && formData.email && formData.password) {
-        register({
-          id: 1,
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-        });
-        navigate('/');
-      } else {
+      if (!(formData.firstName && formData.lastName && formData.email && formData.password)) {
         setError('Please fill in all fields');
+        return;
+      }
+      const fullName = `${formData.firstName} ${formData.lastName}`;
+      const result = await register(formData.email, formData.password, fullName);
+      const { error } = result || {};
+      if (error) {
+        setError(error.message || 'Registration failed. Please try again.');
+      } else {
+        if (result?.needsConfirmation) {
+          setInfo('Check your email to confirm your account, then sign in.');
+        } else {
+          navigate('/');
+        }
       }
     } catch (err) {
       setError('Registration failed. Please try again.');
@@ -68,7 +71,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full">
         {/* Header */}
         <motion.div
@@ -83,8 +86,8 @@ const Register = () => {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Home
           </Link>
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Create account</h2>
-          <p className="text-gray-600">Join us and start shopping</p>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">Create account</h2>
+          <p className="text-gray-600 dark:text-gray-400">Join us and start shopping</p>
         </motion.div>
 
         {/* Registration Form */}
@@ -98,7 +101,7 @@ const Register = () => {
             {/* Name Fields */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   First Name
                 </label>
                 <div className="relative">
@@ -115,7 +118,7 @@ const Register = () => {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Last Name
                 </label>
                 <div className="relative">
@@ -135,7 +138,7 @@ const Register = () => {
 
             {/* Email Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Email Address
               </label>
               <div className="relative">
@@ -154,7 +157,7 @@ const Register = () => {
 
             {/* Password Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Password
               </label>
               <div className="relative">
@@ -186,7 +189,7 @@ const Register = () => {
 
             {/* Confirm Password Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Confirm Password
               </label>
               <div className="relative">
@@ -234,7 +237,7 @@ const Register = () => {
                 required
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1"
               />
-              <label className="ml-2 text-sm text-gray-700">
+              <label className="ml-2 text-sm text-gray-700 dark:text-gray-300">
                 I agree to the{' '}
                 <Link
                   to="/terms"
@@ -272,10 +275,10 @@ const Register = () => {
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
+                <div className="w-full border-t border-gray-300 dark:border-gray-700" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                <span className="px-2 bg-white dark:bg-gray-900 text-gray-500">Or continue with</span>
               </div>
             </div>
           </div>
@@ -285,7 +288,7 @@ const Register = () => {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
+              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm bg-white dark:bg-gray-900 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path
@@ -311,7 +314,7 @@ const Register = () => {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
+              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm bg-white dark:bg-gray-900 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
             >
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                 <path
@@ -324,9 +327,15 @@ const Register = () => {
             </motion.button>
           </div>
 
+          {info && (
+            <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+              <p className="text-sm text-blue-700">{info}</p>
+            </div>
+          )}
+
           {/* Sign In Link */}
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Already have an account?{' '}
               <Link
                 to="/login"
